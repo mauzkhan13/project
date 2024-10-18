@@ -15,7 +15,7 @@ class ScrapeSpider(scrapy.Spider):
     name = "re24"
     start_urls = ['https://www.bol.com/']
     scraped_data = []
-    file_name = 'test.csv'
+    file_name = 'All URLs.csv'
 
 
     # def start_requests(self):
