@@ -32,7 +32,7 @@ class ScrapeSpider(scrapy.Spider):
             for row in reader:
                 if row:
                     url = row['Link']
-                    yield scrapy.Request(url,callback=self.parse_link,meta={'url': url,},dont_filter= True)
+                    yield scrapy.Request(url,callback=self.parse,meta={'url': url,},dont_filter= True)
     # def main_link(self, response):
     #
     #     main_links = [
@@ -45,22 +45,22 @@ class ScrapeSpider(scrapy.Spider):
     #     for main_link in main_links:
     #         yield scrapy.Request(main_link, callback=self.parse_link, dont_filter=True)
 
-    def parse_link(self, response):
-        urls = response.xpath(
-            '//a[@class="product-title px_list_page_product_click list_page_product_tracking_target"]/@href | //a[@data-test="product-title"]/@href').getall()
-        for url in urls:
-            absolute_url = response.urljoin(url) 
-            yield scrapy.Request(url=absolute_url, callback=self.parse, meta={'url': absolute_url},dont_filter= True)
+    # def parse_link(self, response):
+    #     urls = response.xpath(
+    #         '//a[@class="product-title px_list_page_product_click list_page_product_tracking_target"]/@href | //a[@data-test="product-title"]/@href').getall()
+    #     for url in urls:
+    #         absolute_url = response.urljoin(url) 
+    #         yield scrapy.Request(url=absolute_url, callback=self.parse, meta={'url': absolute_url},dont_filter= True)
 
-        next_page = response.xpath('//ul[@class="pagination"]/li/a[@class="js_pagination_item"]/@href').get()
-        if next_page:
-            next_page_url = response.urljoin(next_page)
-            yield scrapy.Request(url=next_page_url, callback=self.parse_link)
+    #     next_page = response.xpath('//ul[@class="pagination"]/li/a[@class="js_pagination_item"]/@href').get()
+    #     if next_page:
+    #         next_page_url = response.urljoin(next_page)
+    #         yield scrapy.Request(url=next_page_url, callback=self.parse_link)
 
-        page_links = response.xpath('//ul[@class="pagination"]/li/a[@class="js_pagination_item"]/@href').getall()
-        for page_link in page_links:
-            absolute_page_url = response.urljoin(page_link)
-            yield scrapy.Request(url=absolute_page_url, callback=self.parse_link)  # Follow all pagination links
+    #     page_links = response.xpath('//ul[@class="pagination"]/li/a[@class="js_pagination_item"]/@href').getall()
+    #     for page_link in page_links:
+    #         absolute_page_url = response.urljoin(page_link)
+    #         yield scrapy.Request(url=absolute_page_url, callback=self.parse_link)  # Follow all pagination links
 
     def parse(self, response):
         url = response.meta.get('url')
