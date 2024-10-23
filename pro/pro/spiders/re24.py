@@ -15,7 +15,7 @@ class ScrapeSpider(scrapy.Spider):
     name = "re24"
     start_urls = ['https://www.bol.com/']
     scraped_data = []
-    file_name = 'unique_links.csv'
+    file_name = 'unique_url.csv'
 
     proxies = {
         "http": "http://gckuagwz-rotate:6lhe7vey3vgw@p.webshare.io:80/",
